@@ -24,7 +24,13 @@ void display_help(char *my_name) {
  * @brief init_configuration initializes the configuration with default values
  * @param the_config is a pointer to the configuration to be initialized
  */
-void init_configuration(configuration_t *the_config) {
+void init_configuration(configuration_t *the_config) {  //j initialise le the_config
+    the_config->source="";
+    the_config->destination="";
+    the_config->processes_count=0;
+    the_config->is_parallel=false;
+    the_config->uses_md5=false;
+    
 }
 
 /*!
@@ -34,5 +40,49 @@ void init_configuration(configuration_t *the_config) {
  * @param argv is an array of strings with the program parameters
  * @return -1 if configuration cannot succeed, 0 when ok
  */
-int set_configuration(configuration_t *the_config, int argc, char *argv[]) {
+int set_configuration(configuration_t *the_config, int argc, char *argv[]) {            //pas testé
+
+    struct option my_opts[] = {                                            //je me suis inspiré du td avec getop pas encore testé
+            {.name="date-size-only",.has_arg=0,.flag=0,.val='d'},
+            {.name="processus",.has_arg=1,.flag=0,.val='n'},
+            {.name="no-parallel",.has_arg=0,.flag=0,.val='p'},
+            {.name="dry-run",.has_arg=0,.flag=0,.val='r'},
+            {.name="verbose",.has_arg=0,.flag=0,.val='v'},
+            {.name=0,.has_arg=0,.flag=0,.val=0}, // last element must be zero
+    };
+
+    while ((opt = getopt_long(argc, argv, "", my_opts, NULL)) != -1) {
+        switch (opt) {
+            case 'd':
+                the_config->uses_md5=true;
+                break;
+            case 'n':
+                the_config->processes_count = atoi(optarg);
+                break;
+            case 'p':
+                the_config->is_parallel=true;
+                break;
+            case 'r':
+                    //je voit pas quoi mettre
+                break;
+            case 'v':
+                    //je voit pas quoi mettre
+                break;
+        }
+
+        if (optind + 2 != argc) {                                                            //verifie si 2 argument sinon renvoie a help §§chatgpt
+            fprintf(stderr, "Error: source_dir and destination_dir are required.\n");
+            display_help(argv[0]);
+            return -1; // Configuration failed due to missing arguments
+        }
+
+        strncpy(the_config->source, argv[optind], sizeof(the_config->source) - 1);                    //copie les 2 arguments sources et destinations dans 
+        the_config->source[sizeof(the_config->source) - 1] = '\0';                                    //les config->source et destnation §§chatgpt
+
+        strncpy(the_config->destination, argv[optind + 1], sizeof(the_config->destination) - 1);
+        the_config->destination[sizeof(the_config->destination) - 1] = '\0';
+
+        return 0;
+
+    
 }
