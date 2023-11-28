@@ -1,4 +1,4 @@
-#include <files-list.h>
+#include <../include/files-list.h>
 #include <stddef.h>
 #include <stdlib.h>
 #include <string.h>
@@ -28,6 +28,28 @@ void clear_files_list(files_list_t *list) {
  *  @return 0 if success, -1 else (out of memory)
  */
 files_list_entry_t *add_file_entry(files_list_t *list, char *file_path) {
+    files_list_entry_t *cursor = list->head;
+    while (cursor != NULL)
+    {
+        if(strcmp(cursor->path_and_name,file_path) == 0){
+            return 0;
+        }
+        cursor = cursor->next;
+    }
+    files_list_entry_t *newl = malloc(sizeof(files_list_entry_t));
+    if(newl == NULL){
+        return -1;
+    }
+    else{
+        strcpy(newl->path_and_name,file_path);
+        newl->prev = NULL;
+        newl->next = list->head;
+        //Des trucs a rajouter mais je sais pas et GPT ne me dit rien
+        list->head->prev = newl;
+        list->head = newl;
+        return 0;
+    }
+    
 }
 
 /*!
@@ -39,6 +61,7 @@ files_list_entry_t *add_file_entry(files_list_t *list, char *file_path) {
  * @return 0 in case of success, -1 else
  */
 int add_entry_to_tail(files_list_t *list, files_list_entry_t *entry) {
+    
 }
 
 /*!
