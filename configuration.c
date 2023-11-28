@@ -70,14 +70,14 @@ int set_configuration(configuration_t *the_config, int argc, char *argv[]) {    
                 break;
         }
 
-        if (optind + 2 != argc) {                                                            //verifie si 2 argument sinon renvoie a help §§chatgpt
+        if (optind + 2 != argc) {                                                            //verifie si 2 argument sinon renvoie a help 
             fprintf(stderr, "Error: source_dir and destination_dir are required.\n");
             display_help(argv[0]);
             return -1; // Configuration failed due to missing arguments
         }
 
         strncpy(the_config->source, argv[optind], sizeof(the_config->source) - 1);                    //copie les 2 arguments sources et destinations dans 
-        the_config->source[sizeof(the_config->source) - 1] = '\0';                                    //les config->source et destnation §§chatgpt
+        the_config->source[sizeof(the_config->source) - 1] = '\0';                                    //les config->source et destnation 
 
         strncpy(the_config->destination, argv[optind + 1], sizeof(the_config->destination) - 1);
         the_config->destination[sizeof(the_config->destination) - 1] = '\0';
