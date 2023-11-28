@@ -28,6 +28,9 @@ void clear_files_list(files_list_t *list) {
  *  @return 0 if success, -1 else (out of memory)
  */
 files_list_entry_t *add_file_entry(files_list_t *list, char *file_path) {
+    if(file_path == NULL){
+        return -1;
+    }
     files_list_entry_t *cursor = list->head;
     while (cursor != NULL)
     {
@@ -41,12 +44,10 @@ files_list_entry_t *add_file_entry(files_list_t *list, char *file_path) {
         return -1;
     }
     else{
-        strcpy(newl->path_and_name,file_path);
-        newl->prev = NULL;
-        newl->next = list->head;
-        //Des trucs a rajouter mais je sais pas et GPT ne me dit rien
-        list->head->prev = newl;
-        list->head = newl;
+        //Faire des trucs pour avoir les info mais je sais pas.
+        if(add_entry_to_tail(list,newl) == -1){
+            return -1;
+        }
         return 0;
     }
     
@@ -61,8 +62,20 @@ files_list_entry_t *add_file_entry(files_list_t *list, char *file_path) {
  * @return 0 in case of success, -1 else
  */
 int add_entry_to_tail(files_list_t *list, files_list_entry_t *entry) {
-    
+    if(entry->next != NULL || entry->prev != NULL){
+        return -1;
+    }
+    if(list->head == NULL){
+        list->head = list->tail = entry;
+    }
+    else{
+        list->tail->next = entry;
+        entry->prev = list->tail;
+        list->tail = entry;
+    }
+    return 0;
 }
+    
 
 /*!
  *  @brief find_entry_by_name looks up for a file in a list
@@ -74,6 +87,19 @@ int add_entry_to_tail(files_list_t *list, files_list_entry_t *entry) {
  *  @return a pointer to the element found, NULL if none were found.
  */
 files_list_entry_t *find_entry_by_name(files_list_t *list, char *file_path, size_t start_of_src, size_t start_of_dest) {
+    if(file_path == NULL){
+        return NULL;
+    }
+    files_list_entry_t *cursor = list->head;
+    while (cursor != NULL)
+    {
+        if(strcmp(cursor->path_and_name,file_path) == 0){
+            return cursor;
+        }
+        cursor = cursor->next;
+    }
+    return NULL;
+    //Et pour le reste pas compris
 }
 
 /*!
