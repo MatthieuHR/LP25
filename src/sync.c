@@ -1,16 +1,16 @@
-#include <sync.h>
+#include <../include/sync.h>
+#include <../include/processes.h>
+#include <../include/utility.h>
+#include <../include/messages.h>
+#include <../include/file-properties.h>
+
 #include <dirent.h>
 #include <string.h>
-#include <processes.h>
-#include <utility.h>
-#include <messages.h>
-#include <file-properties.h>
 #include <sys/stat.h>
 #include <fcntl.h>
 #include <sys/sendfile.h>
 #include <unistd.h>
 #include <sys/msg.h>
-
 #include <stdio.h>
 
 /*!

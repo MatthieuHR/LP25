@@ -1,11 +1,12 @@
-#include "processes.h"
+#include <../include/processes.h>
+#include <../include/messages.h>
+#include <../include/file-properties.h>
+#include <../include/sync.h>
+
 #include <stdlib.h>
 #include <unistd.h>
 #include <sys/msg.h>
 #include <stdio.h>
-#include <messages.h>
-#include <file-properties.h>
-#include <sync.h>
 #include <string.h>
 #include <errno.h>
 

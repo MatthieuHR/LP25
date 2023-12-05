@@ -1,4 +1,5 @@
-#include <messages.h>
+#include <../include/messages.h>
+
 #include <sys/msg.h>
 #include <string.h>
 

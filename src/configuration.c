@@ -1,4 +1,5 @@
 #include <../include/configuration.h>
+
 #include <stddef.h>
 #include <stdlib.h>
 #include <getopt.h>
@@ -44,7 +45,7 @@ int set_configuration(configuration_t *the_config, int argc, char *argv[]) {    
 
     struct option my_opts[] = {                                            //je me suis inspiré du td avec getop pas encore testé
             {.name="date-size-only",.has_arg=0,.flag=0,.val='d'},
-            {.name="n",.has_arg=1,.flag=0,.val='n'},
+            {.name="number",.has_arg=1,.flag=0,.val='n'},
             {.name="no-parallel",.has_arg=0,.flag=0,.val='p'},
             {.name="dry-run",.has_arg=0,.flag=0,.val='r'},
             {.name="verbose",.has_arg=0,.flag=0,.val='v'},
@@ -53,7 +54,7 @@ int set_configuration(configuration_t *the_config, int argc, char *argv[]) {    
 
     int opt=0;
 
-    while ((opt = getopt_long(argc, argv, "", my_opts, NULL)) != -1) {
+    while ((opt = getopt_long(argc, argv, "n:dprv", my_opts, NULL)) != -1) {
         switch (opt) {
             case 'd':
                 the_config->uses_md5=true;

@@ -1,4 +1,4 @@
-#include <file-properties.h>
+#include <../include/file-properties.h>
 
 #include <sys/stat.h>
 #include <dirent.h>
