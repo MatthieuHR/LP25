@@ -96,6 +96,13 @@ void make_files_list(files_list_t *list, char *target_path) {
 
     closedir(dir);
 }
+/*!
+ * @brief make_files_lists_parallel makes both (src and dest) files list with parallel processing
+ * @param src_list is a pointer to the source list to build
+ * @param dst_list is a pointer to the destination list to build
+ * @param the_config is a pointer to the program configuration
+ * @param msg_queue is the id of the MQ used for communication
+ */
 void make_files_lists_parallel(files_list_t *src_list, files_list_t *dst_list, configuration_t *the_config, int msg_queue) {
 }
 
