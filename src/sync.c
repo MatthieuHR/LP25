@@ -170,12 +170,10 @@ void copy_entry_to_destination(files_list_entry_t *source_entry, configuration_t
             perror("Error copying file");
         }
 
-        // Ferme les descripteurs de fichier
+        // Ferme les fichier
         close(source_fd);
         close(dest_fd);
     }
-
-    // TODO: Mettez à jour les modes d'accès et le timestamp (mtime) du fichier de destination si nécessaire
 }
 
 /*!
