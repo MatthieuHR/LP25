@@ -178,6 +178,32 @@ void copy_entry_to_destination(files_list_entry_t *source_entry, configuration_t
  * @param target is the target dir whose content must be listed
  */
 void make_list(files_list_t *list, char *target) {
+    // Ouvre le répertoire spécifié par `target`
+    DIR *dir = open_dir(target);
+
+    // Si l'ouverture du répertoire échoue
+    if (dir == NULL) {
+        return;
+    }
+
+    // Parcours de chaque entrée (fichier ou sous-répertoire) dans le répertoire ouvert
+    struct dirent *entry;
+    while ((entry = readdir(dir)) != NULL) {
+        // Construit le chemin complet du fichier ou sous-répertoire en concaténant `target` avec le nom de l'entrée
+        char path[PATH_MAX];
+        snprintf(path, sizeof(path), "%s/%s", target, entry->d_name);
+
+        // Ajoute le chemin du fichier à la liste des fichiers
+        add_file_entry(list, path);
+
+        // Si l'entrée est un sous-répertoire, appelle la fonction make_list pour explorer le sous-répertoire
+        if (entry->d_type == DT_DIR && strcmp(entry->d_name, ".") != 0 && strcmp(entry->d_name, "..") != 0) {
+            make_list(list, path);
+        }
+    }
+
+    // Ferme le répertoire après traitement
+    closedir(dir);
 }
 
 /*!
