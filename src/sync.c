@@ -116,6 +116,51 @@ void make_files_list(files_list_t *list, char *target_path) {
  * @param msg_queue is the id of the MQ used for communication
  */
 void make_files_lists_parallel(files_list_t *src_list, files_list_t *dst_list, configuration_t *the_config, int msg_queue) {
+    // Tâche parallèle pour construire la liste source
+    pthread_t src_thread;
+    pthread_create(&src_thread, NULL, ^{
+        DIR *dir_src = opendir(the_config->source_path);
+        if (dir_src == NULL) {
+            perror("Error opening source directory");
+            exit(EXIT_FAILURE);
+        }
+
+        struct dirent *entry_src;
+        while ((entry_src = readdir(dir_src)) != NULL) {
+            // Construit le chemin complet du fichier source
+            char path_src[PATH_MAX];
+            snprintf(path_src, sizeof(path_src), "%s/%s", the_config->source_path, entry_src->d_name);
+
+            // A faire : Ajoutez le chemin du fichier source à src_list
+        }
+
+        closedir(dir_src);
+    });
+
+    // Tâche parallèle pour construire la liste de destination
+    pthread_t dst_thread;
+    pthread_create(&dst_thread, NULL, ^{
+        DIR *dir_dst = opendir(the_config->destination_path);
+        if (dir_dst == NULL) {
+            perror("Error opening destination directory");
+            exit(EXIT_FAILURE);
+        }
+
+        struct dirent *entry_dst;
+        while ((entry_dst = readdir(dir_dst)) != NULL) {
+            // Construit le chemin complet du fichier destination
+            char path_dst[PATH_MAX];
+            snprintf(path_dst, sizeof(path_dst), "%s/%s", the_config->destination_path, entry_dst->d_name);
+
+            // A faire: Ajoutez le chemin du fichier destination à dst_list
+        }
+
+        closedir(dir_dst);
+    });
+
+    // Attend que les tâches parallèles se terminent
+    pthread_join(src_thread, NULL);
+    pthread_join(dst_thread, NULL);
 }
 
 /*!
