@@ -35,7 +35,7 @@ void synchronize(configuration_t *the_config, process_context_t *p_context) {
 
     // Appliquer les différences à la destination
     apply_differences(&destination_list, &differences_list, the_config);
-}
+} 
 
 /*!
  * @brief mismatch tests if two files with the same name (one in source, one in destination) are equal
