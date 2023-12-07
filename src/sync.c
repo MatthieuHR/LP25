@@ -125,8 +125,57 @@ void make_files_lists_parallel(files_list_t *src_list, files_list_t *dst_list, c
  * Use sendfile to copy the file, mkdir to create the directory
  */
 void copy_entry_to_destination(files_list_entry_t *source_entry, configuration_t *the_config) {
+    // Vérifie si l'entrée source est valide
+    if (source_entry == NULL || the_config == NULL) {
+        fprintf(stderr, "Invalid source entry or configuration\n");
+        return;
+    }
 
-    
+    // Construit le chemin complet du fichier source
+    char source_path[PATH_MAX];
+    snprintf(source_path, sizeof(source_path), "%s/%s", the_config->source_path, source_entry->path);
+
+    // Construit le chemin complet du fichier destination
+    char dest_path[PATH_MAX];
+    snprintf(dest_path, sizeof(dest_path), "%s/%s", the_config->destination_path, source_entry->path);
+
+    // Vérifie si l'entrée est un répertoire
+    if (source_entry->is_directory) {
+        // Crée le répertoire de destination
+        if (mkdir(dest_path, the_config->dir_mode) != 0) {
+            perror("Error creating directory");
+            return;
+        }
+    } else {
+        // Ouvre le fichier source
+        int source_fd = open(source_path, O_RDONLY);
+        if (source_fd == -1) {
+            perror("Error opening source file");
+            return;
+        }
+
+        // Crée ou ouvre le fichier de destination
+        int dest_fd = open(dest_path, O_WRONLY | O_CREAT | O_TRUNC, the_config->file_mode);
+        if (dest_fd == -1) {
+            perror("Error opening destination file");
+            close(source_fd);
+            return;
+        }
+
+        // Utilise sendfile pour copier le contenu du fichier
+        ssize_t bytes_copied = sendfile(dest_fd, source_fd, NULL, source_entry->size);
+
+        // Vérifie si la copie a réussi
+        if (bytes_copied == -1) {
+            perror("Error copying file");
+        }
+
+        // Ferme les descripteurs de fichier
+        close(source_fd);
+        close(dest_fd);
+    }
+
+    // TODO: Mettez à jour les modes d'accès et le timestamp (mtime) du fichier de destination si nécessaire
 }
 
 /*!
