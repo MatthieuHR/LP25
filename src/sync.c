@@ -51,7 +51,7 @@ bool mismatch(files_list_entry_t *lhd, files_list_entry_t *rhd, bool has_md5) {
                 return true;
             }
         }
-    } 
+    }  
     else {//S'il n'y en a pas : 
         FILE *file1 = fopen(lhd->path_and_name, "rb");//Ouvre 2 fichiers
         FILE *file2 = fopen(rhd->path_and_name, "rb");
