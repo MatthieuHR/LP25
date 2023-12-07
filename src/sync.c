@@ -126,48 +126,7 @@ void make_files_lists_parallel(files_list_t *src_list, files_list_t *dst_list, c
  */
 void copy_entry_to_destination(files_list_entry_t *source_entry, configuration_t *the_config) {
 
-    if (source_entry == NULL || the_config == NULL) {
-        // Gérer l'erreur (par exemple, imprimer un message et retourner)
-        return;
-    }
-
-    // Construisez le chemin de destination en ajoutant le préfixe approprié
-    char destination_path[MAX_PATH_LENGTH]; 
-    build_destination_path(source_entry->c, the_config->prefixe_d, destination_path);
-
-    // Vérifiez si le répertoire de destination existe, sinon créez-le
-    if (access(destination_path, F_OK) == -1) {
-        if (mkdir(destination_path, S_IRWXU | S_IRWXG | S_IROTH | S_IXOTH) != 0) {
-            // Gérer l'erreur de création du répertoire (par exemple, imprimer un message et retourner)
-            return;
-        }
-    }
-     // Ouvrez le fichier source en lecture
-    int source_file = open(source_entry->c, O_RDONLY);
-    if (source_file == -1) {
-        // Gérer l'erreur d'ouverture du fichier source (par exemple, imprimer un message et retourner)
-        return;
-    }
-
-    // Ouvrez (ou créez) le fichier destination en écriture
-    int destination_file = open(destination_path, O_WRONLY | O_CREAT | O_TRUNC, S_IRUSR | S_IWUSR | S_IRGRP | S_IROTH);
-    if (destination_file == -1) {
-        // Gérer l'erreur d'ouverture du fichier destination (par exemple, imprimer un message et retourner)
-        close(source_file);
-        return;
-    }
-
-    // Utilisez sendfile pour copier le contenu du fichier source vers le fichier destination
-    off_t offset = 0;
-    sendfile(destination_file, source_file, &offset, source_entry->t);
-
-    // Fermez les fichiers
-    close(source_file);
-    close(destination_file);
-
-    // Copiez les modes d'accès et mtime de la source à la destination
-    copy_permissions_and_mtime(source_entry->c, destination_path);
-}
+    
 }
 
 /*!
@@ -212,6 +171,11 @@ void make_list(files_list_t *list, char *target) {
  * @return a pointer to a dir, NULL if it cannot be opened
  */
 DIR *open_dir(char *path) {
+      DIR *dir = opendir(path);
+    if (dir == NULL) {
+        perror("[OPEN DIRECTORY ERROR] : Unable to open directory");
+    }
+    return dir;
 }
 
 /*!
