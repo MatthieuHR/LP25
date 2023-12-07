@@ -22,6 +22,19 @@
  * @param p_context is a pointer to the processes context
  */
 void synchronize(configuration_t *the_config, process_context_t *p_context) {
+    // Logique de synchronisation
+
+    // Construire les listes source et destination
+    files_list_t source_list;
+    files_list_t destination_list;
+    make_files_lists_parallel(&source_list, &destination_list, the_config, p_context->msg_queue);
+
+    // Créer une troisième liste avec les différences
+    files_list_t differences_list;
+    build_differences_list(&source_list, &destination_list, &differences_list);
+
+    // Appliquer les différences à la destination
+    apply_differences(&destination_list, &differences_list, the_config);
 }
 
 /*!
