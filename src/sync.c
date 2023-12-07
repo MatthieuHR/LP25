@@ -45,18 +45,18 @@ void synchronize(configuration_t *the_config, process_context_t *p_context) {
  * @return true if both files are not equal, false else
  */
 bool mismatch(files_list_entry_t *lhd, files_list_entry_t *rhd, bool has_md5) {
-    // Ici, EOF = end of file, caractèr marquant la fin d'un fichier
-    if (has_md5) {
+    if (has_md5) {//Regade s'il y a un md5
         for (int i = 0; i < 16; ++i) {
             if (lhd->md5sum[i] != rhd->md5sum[i]) {
                 return true;
             }
         }
-    } else {
-        FILE *file1 = fopen(lhd->path_and_name, "rb");
+    } 
+    else {//S'il n'y en a pas : 
+        FILE *file1 = fopen(lhd->path_and_name, "rb");//Ouvre 2 fichiers
         FILE *file2 = fopen(rhd->path_and_name, "rb");
 
-        if (file1 == NULL || file2 == NULL) {
+        if (file1 == NULL || file2 == NULL) {//Vérifie que tous deux ne soient pas vide pour passer à la suite
             if (file1) fclose(file1);
             if (file2) fclose(file2);
             fprintf(stderr, "[MISMATCH TEST] : un des 2 fichier n'a pas pu être ouvert\n");
@@ -64,50 +64,49 @@ bool mismatch(files_list_entry_t *lhd, files_list_entry_t *rhd, bool has_md5) {
         }
         char char1, char2;
 
-        while ((strcpy(char1, fgetc(file1))) != EOF && (strcpy(char2,fgetc(file2))) != EOF) {
+        while ((strcpy(char1, fgetc(file1))) != end_of_file && (strcpy(char2,fgetc(file2))) != end_of_file) {//Détecte s'il y a une différence
             if (strcmp(char1,char2) != 0) {
                 return true;
-                break; // sort de la fonction lors de la détection d'une différence
+                break; //Si c'est le cas, sort
             }
         }
-        // Si la longueur des fichiers est différente
-        if ((char1 == EOF && char2 != EOF) || (char1 != EOF && char2 == EOF)) {
+        if ((char1 == EOF && char2 != EOF) || (char1 != EOF && char2 == EOF)) {//Regarde si la longueur des fichiers est différente
             return true;
         }
-        fclose(file1);
+        fclose(file1);//Ferme les fichiers
         fclose(file2);
     }
     return false;
 }
 
 void make_files_list(files_list_t *list, char *target_path) {
-    DIR *dir;
+    DIR *dir;//Ouverture répertoire
     struct dirent *entry;
 
-    if ((dir = opendir(target_path)) == NULL) {
+    if ((dir = opendir(target_path)) == NULL) {//Problème d'ouverture
         perror("Unable to open directory");
         return;
     }
 
-    while ((entry = readdir(dir)) != NULL) {
+    while ((entry = readdir(dir)) != NULL) {//Parcours dans chaque élément présent dans le répertoire 
         char path[PATH_SIZE];
         if (concat_path(path, target_path, entry->d_name) == NULL) {
-            perror("Unable to concatenate path");
+            perror("Unable to concatenate path");//En cas d'erreur, affiche ce message
             continue;
         }
 
-        files_list_entry_t *new_entry = malloc(sizeof(files_list_entry_t));
+        files_list_entry_t *new_entry = malloc(sizeof(files_list_entry_t));//Mémoire allouée pour une nouvelle entrée de la liste de fichiers
         if (new_entry == NULL) {
-            perror("Unable to allocate memory for new file entry");
+            perror("Unable to allocate memory for new file entry");//Erreur allocation mémoire
             continue;
         }
-
+        //Ajout chemin du fichier à la liste des fichiers
         if (add_file_entry(list, path) != 0) {
-            perror("Unable to add file entry to list");
+            perror("Unable to add file entry to list");//Erreur ajout fichier
         }
     }
 
-    closedir(dir);
+    closedir(dir);//Fermeture du répertoire
 }
 /*!
  * @brief make_files_lists_parallel makes both (src and dest) files list with parallel processing
