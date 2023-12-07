@@ -276,5 +276,35 @@ DIR *open_dir(char *path) {
  * @return a struct dirent pointer to the next relevant entry, NULL if none found (use it to stop iterating)
  * Relevant entries are all regular files and dir, except . and ..
  */
+#include <dirent.h>
+#include <stdio.h>
+
+/*!
+ * @brief get_next_entry returns the next entry in an already opened dir
+ * @param dir is a pointer to the dir (as a result of opendir, @see open_dir)
+ * @return a struct dirent pointer to the next relevant entry, NULL if none found (use it to stop iterating)
+ * Relevant entries are all regular files and dir, except . and ..
+ */
 struct dirent *get_next_entry(DIR *dir) {
+    if (dir == NULL) {
+        fprintf(stderr, "Invalid directory pointer\n");
+        return NULL;
+    }
+
+    struct dirent *entry;
+    while ((entry = readdir(dir)) != NULL) {
+        // Ignore les entrées spéciales . et ..
+        if (strcmp(entry->d_name, ".") == 0 || strcmp(entry->d_name, "..") == 0) {
+            continue;
+        }
+
+        // Vérifie si l'entrée est un fichier régulier ou un répertoire
+        if (entry->d_type == DT_REG || entry->d_type == DT_DIR) {
+            return entry; // Retourne l'entrée pertinente
+        }
+    }
+
+    // Aucune entrée pertinente trouvée
+    return NULL;
 }
+
