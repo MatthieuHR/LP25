@@ -113,6 +113,23 @@ void make_files_lists_parallel(files_list_t *src_list, files_list_t *dst_list, c
  * Use sendfile to copy the file, mkdir to create the directory
  */
 void copy_entry_to_destination(files_list_entry_t *source_entry, configuration_t *the_config) {
+
+    if (source_entry == NULL || the_config == NULL) {
+        // Gérer l'erreur (par exemple, imprimer un message et retourner)
+        return;
+    }
+
+    // Construisez le chemin de destination en ajoutant le préfixe approprié
+    char destination_path[MAX_PATH_LENGTH]; // Remplacez MAX_PATH_LENGTH par la longueur maximale attendue du chemin
+    build_destination_path(source_entry->chemin_du_fichier, the_config->prefixe_destination, destination_path);
+
+    // Vérifiez si le répertoire de destination existe, sinon créez-le
+    if (access(destination_path, F_OK) == -1) {
+        if (mkdir(destination_path, S_IRWXU | S_IRWXG | S_IROTH | S_IXOTH) != 0) {
+            // Gérer l'erreur de création du répertoire (par exemple, imprimer un message et retourner)
+            return;
+        }
+    }
 }
 
 /*!
