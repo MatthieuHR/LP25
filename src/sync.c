@@ -142,6 +142,32 @@ void copy_entry_to_destination(files_list_entry_t *source_entry, configuration_t
             return;
         }
     }
+     // Ouvrez le fichier source en lecture
+    int source_file = open(source_entry->chemin_du_fichier, O_RDONLY);
+    if (source_file == -1) {
+        // Gérer l'erreur d'ouverture du fichier source (par exemple, imprimer un message et retourner)
+        return;
+    }
+
+    // Ouvrez (ou créez) le fichier destination en écriture
+    int destination_file = open(destination_path, O_WRONLY | O_CREAT | O_TRUNC, S_IRUSR | S_IWUSR | S_IRGRP | S_IROTH);
+    if (destination_file == -1) {
+        // Gérer l'erreur d'ouverture du fichier destination (par exemple, imprimer un message et retourner)
+        close(source_file);
+        return;
+    }
+
+    // Utilisez sendfile pour copier le contenu du fichier source vers le fichier destination
+    off_t offset = 0;
+    sendfile(destination_file, source_file, &offset, source_entry->taille);
+
+    // Fermez les fichiers
+    close(source_file);
+    close(destination_file);
+
+    // Copiez les modes d'accès et mtime de la source à la destination
+    copy_permissions_and_mtime(source_entry->chemin_du_fichier, destination_path);
+}
 }
 
 /*!
