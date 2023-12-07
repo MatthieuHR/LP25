@@ -12,6 +12,7 @@
 #include <unistd.h>
 #include <sys/msg.h>
 #include <stdio.h>
+#include <stdlib.h>
 
 /*!
  * @brief synchronize is the main function for synchronization
@@ -67,15 +68,34 @@ bool mismatch(files_list_entry_t *lhd, files_list_entry_t *rhd, bool has_md5) {
 }
 
 void make_files_list(files_list_t *list, char *target_path) {
-}
+    DIR *dir;
+    struct dirent *entry;
 
-/*!
- * @brief make_files_lists_parallel makes both (src and dest) files list with parallel processing
- * @param src_list is a pointer to the source list to build
- * @param dst_list is a pointer to the destination list to build
- * @param the_config is a pointer to the program configuration
- * @param msg_queue is the id of the MQ used for communication
- */
+    if ((dir = opendir(target_path)) == NULL) {
+        perror("Unable to open directory");
+        return;
+    }
+
+    while ((entry = readdir(dir)) != NULL) {
+        char path[PATH_SIZE];
+        if (concat_path(path, target_path, entry->d_name) == NULL) {
+            perror("Unable to concatenate path");
+            continue;
+        }
+
+        files_list_entry_t *new_entry = malloc(sizeof(files_list_entry_t));
+        if (new_entry == NULL) {
+            perror("Unable to allocate memory for new file entry");
+            continue;
+        }
+
+        if (add_file_entry(list, path) != 0) {
+            perror("Unable to add file entry to list");
+        }
+    }
+
+    closedir(dir);
+}
 void make_files_lists_parallel(files_list_t *src_list, files_list_t *dst_list, configuration_t *the_config, int msg_queue) {
 }
 
