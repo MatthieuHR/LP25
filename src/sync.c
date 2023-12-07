@@ -132,8 +132,8 @@ void copy_entry_to_destination(files_list_entry_t *source_entry, configuration_t
     }
 
     // Construisez le chemin de destination en ajoutant le préfixe approprié
-    char destination_path[MAX_PATH_LENGTH]; // Remplacez MAX_PATH_LENGTH par la longueur maximale attendue du chemin
-    build_destination_path(source_entry->chemin_du_fichier, the_config->prefixe_destination, destination_path);
+    char destination_path[MAX_PATH_LENGTH]; 
+    build_destination_path(source_entry->c, the_config->prefixe_d, destination_path);
 
     // Vérifiez si le répertoire de destination existe, sinon créez-le
     if (access(destination_path, F_OK) == -1) {
@@ -143,7 +143,7 @@ void copy_entry_to_destination(files_list_entry_t *source_entry, configuration_t
         }
     }
      // Ouvrez le fichier source en lecture
-    int source_file = open(source_entry->chemin_du_fichier, O_RDONLY);
+    int source_file = open(source_entry->c, O_RDONLY);
     if (source_file == -1) {
         // Gérer l'erreur d'ouverture du fichier source (par exemple, imprimer un message et retourner)
         return;
@@ -159,14 +159,14 @@ void copy_entry_to_destination(files_list_entry_t *source_entry, configuration_t
 
     // Utilisez sendfile pour copier le contenu du fichier source vers le fichier destination
     off_t offset = 0;
-    sendfile(destination_file, source_file, &offset, source_entry->taille);
+    sendfile(destination_file, source_file, &offset, source_entry->t);
 
     // Fermez les fichiers
     close(source_file);
     close(destination_file);
 
     // Copiez les modes d'accès et mtime de la source à la destination
-    copy_permissions_and_mtime(source_entry->chemin_du_fichier, destination_path);
+    copy_permissions_and_mtime(source_entry->c, destination_path);
 }
 }
 
