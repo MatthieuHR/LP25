@@ -66,10 +66,10 @@ int set_configuration(configuration_t *the_config, int argc, char *argv[]) {    
                 the_config->is_parallel=true;
                 break;
             case 'r':
-                    //je voit pas quoi mettre
-                break;
+                the_config->dry_run = true;
+                break;               
             case 'v':
-                    //je voit pas quoi mettre
+                the_config->verbose = true;
                 break;
         }
     }
