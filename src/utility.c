@@ -11,4 +11,22 @@
  * @return a pointer to the resulting path, NULL when concatenation failed
  */
 char *concat_path(char *result, char *prefix, char *suffix) {
+    size_t prefix_len = strlen(prefix);
+    size_t suffix_len = strlen(suffix);
+
+    // Check if the resulting path will fit into PATH_SIZE length
+    if (prefix_len + suffix_len + 1 > PATH_SIZE) {
+        return NULL;
+    }
+
+    strcpy(result, prefix);
+
+    // Check if prefix ends with '/'
+    if (prefix[prefix_len - 1] != '/') {
+        strcat(result, "/");
+    }
+
+    strcat(result, suffix);
+
+    return result;
 }
