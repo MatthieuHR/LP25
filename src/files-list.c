@@ -1,4 +1,4 @@
-#include "files-list.h"
+#include "../include/files-list.h"
 #include <stddef.h>
 #include <stdlib.h>
 #include <string.h>
@@ -14,7 +14,7 @@ files_list_entry_t *add_file_entry(files_list_t *list, char *file_path) {
 
     files_list_entry_t *new_entry = malloc(sizeof(files_list_entry_t));
     if (new_entry == NULL) {
-        return -1;
+        return NULL;
     }
     files_list_entry_t *temp = list->head;
     strncpy(new_entry->path_and_name, file_path, sizeof(new_entry->path_and_name));

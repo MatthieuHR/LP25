@@ -1,4 +1,4 @@
-#include "configuration.h"
+#include "../include/configuration.h"
 #include <stddef.h>
 #include <stdlib.h>
 #include <getopt.h>
@@ -25,9 +25,8 @@ void display_help(char *my_name) {
  * @param the_config is a pointer to the configuration to be initialized
  */
 void init_configuration(configuration_t *the_config) {
-    if (the_config == NULL) {
-        return;
-    }
+    printf("Initializing configuration\n");
+    the_config = (configuration_t*)malloc(sizeof(configuration_t));
     the_config->source[0] = '\0';
     the_config->destination[0] = '\0'; 
     the_config->processes_count = 1;
@@ -35,6 +34,7 @@ void init_configuration(configuration_t *the_config) {
     the_config->uses_md5 = true;
     the_config->verbose = false;
     the_config->dry_run = false;
+    printf("Configuration initialized\n");
 }
 
 /*!
@@ -55,6 +55,7 @@ int set_configuration(configuration_t *the_config, int argc, char *argv[]) {
         {0, 0, 0, 0}
     };
 
+    printf("Parsing options\n");
     while ((opt = getopt_long(argc, argv, "dpvrn:", long_options, NULL)) != -1) {
         switch (opt) {
             case 'd':
@@ -77,6 +78,7 @@ int set_configuration(configuration_t *the_config, int argc, char *argv[]) {
         }
     }
 
+    printf("Parsing arguments\n");
     // Copy remaining arguments to source and destination
     if (optind < argc) {
         strncpy(the_config->source, argv[optind++], sizeof(the_config->source));
@@ -84,6 +86,6 @@ int set_configuration(configuration_t *the_config, int argc, char *argv[]) {
             strncpy(the_config->destination, argv[optind++], sizeof(the_config->destination));
         }
     }
-
+    printf("Configuration set\n");
     return 0;
 }

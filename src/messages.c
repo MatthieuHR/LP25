@@ -1,4 +1,4 @@
-#include "messages.h"
+#include "../include/messages.h"
 #include <sys/msg.h>
 #include <string.h>
 
@@ -85,7 +85,7 @@ int send_files_list_element(int msg_queue, int recipient, files_list_entry_t *fi
  * @return the result of msgsnd
  */
 int send_list_end(int msg_queue, int recipient) {
-    
+
     //return msgsnd(msg_queue, &message, message_size, 0);
 }
 

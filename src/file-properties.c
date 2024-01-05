@@ -1,20 +1,21 @@
-#include "file-properties.h"
+#include "../include/file-properties.h"
 
 #include <sys/stat.h>
 #include <dirent.h>
-#include <openssl/evp.h>
+#include "/usr/include/openssl/evp.h"
 #include <unistd.h>
 #include <assert.h>
 #include <string.h>
-#include "defines.h"
+#include "../include/defines.h"
 #include <fcntl.h>
 #include <stdio.h>
-#include "utility.h"
+#include "../include/utility.h"
 #include <stdbool.h>
 
 int get_file_stats(files_list_entry_t *entry) {
     struct stat sb;
-    char path = entry->path_and_name;
+    char path[PATH_SIZE];
+    strcpy(path, entry->path_and_name);
     if (lstat(path, &sb) == -1) {
         return -1;
     }
