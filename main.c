@@ -54,7 +54,7 @@ int main(int argc, char *argv[]) {
 
     // Prepare (fork, MQ) if parallel
     process_context_t processes_context;
-    if(prepare(&my_config, &processes_context) == 1){ perror("prepare");}
+    prepare(&my_config, &processes_context);
 
     printf("Processes context:\n");
     printf("Processes count: %d\n", processes_context.processes_count);

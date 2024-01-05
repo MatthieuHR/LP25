@@ -57,12 +57,12 @@ CMakeFiles/Projet_LP25.dir/src/sync.c.o: \
  /usr/include/linux/limits.h \
  /usr/include/x86_64-linux-gnu/bits/pthread_stack_min-dynamic.h \
  /usr/include/x86_64-linux-gnu/bits/pthread_stack_min.h \
- /usr/include/x86_64-linux-gnu/bits/dirent_ext.h /usr/include/string.h \
- /usr/include/strings.h \
+ /usr/include/x86_64-linux-gnu/bits/dirent_ext.h \
  /home/matth/vscode/LP25/LP25/src/../include/utility.h \
  /home/matth/vscode/LP25/LP25/src/../include/defines.h \
  /home/matth/vscode/LP25/LP25/src/../include/messages.h \
  /home/matth/vscode/LP25/LP25/src/../include/file-properties.h \
+ /usr/include/string.h /usr/include/strings.h \
  /usr/include/x86_64-linux-gnu/sys/stat.h \
  /usr/include/x86_64-linux-gnu/bits/stat.h \
  /usr/include/x86_64-linux-gnu/bits/struct_stat.h /usr/include/fcntl.h \
@@ -79,8 +79,7 @@ CMakeFiles/Projet_LP25.dir/src/sync.c.o: \
  /usr/include/x86_64-linux-gnu/bits/msq.h \
  /usr/include/x86_64-linux-gnu/bits/types/struct_msqid_ds.h \
  /usr/include/x86_64-linux-gnu/bits/types/struct_msqid64_ds.h \
- /usr/include/utime.h /usr/include/stdio.h \
- /usr/lib/gcc/x86_64-linux-gnu/12/include/stdarg.h \
+ /usr/include/stdio.h /usr/lib/gcc/x86_64-linux-gnu/12/include/stdarg.h \
  /usr/include/x86_64-linux-gnu/bits/types/__fpos_t.h \
  /usr/include/x86_64-linux-gnu/bits/types/__mbstate_t.h \
  /usr/include/x86_64-linux-gnu/bits/types/__fpos64_t.h \

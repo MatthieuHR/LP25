@@ -69,7 +69,11 @@ int prepare(configuration_t *the_config, process_context_t *p_context) {
         p_context->source_analyzers_pids = malloc(sizeof(pid_t) * source_lister_config.analyzers_count/2);
         for (int i = 0; i < source_lister_config.analyzers_count; i++) {
             printf("Creating analyzer process %d\n", i);
-            p_context->source_analyzers_pids[i] = make_process(p_context, analyzer_process_loop, &source_analyzer_config);
+            if((p_context->source_analyzers_pids[i] = make_process(p_context, analyzer_process_loop, &source_analyzer_config)) == -1){
+                perror("make_process");
+                errno = EAGAIN;
+                return -1;
+            };
             printf("Analyzer process %d as %d pid\n", i, p_context->source_analyzers_pids[i]);
             p_context->processes_count++;
         }
@@ -84,7 +88,12 @@ int prepare(configuration_t *the_config, process_context_t *p_context) {
         p_context->destination_analyzers_pids = malloc(sizeof(pid_t) * destination_lister_config.analyzers_count/2);
         for (int i = 0; i < destination_lister_config.analyzers_count; i++) {
             printf("Creating analyzer process %d\n", i);
-            p_context->destination_analyzers_pids[i] = make_process(p_context, analyzer_process_loop, &destination_analyzer_config);
+            if((p_context->destination_analyzers_pids[i] = make_process(p_context, analyzer_process_loop, &destination_analyzer_config)) == -1){
+                perror("make_process");
+                errno = EAGAIN;
+                return -1;
+            };
+
             printf("Analyzer process %d as %d pid\n", i, p_context->destination_analyzers_pids[i]);
             p_context->processes_count++;
         }
