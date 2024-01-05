@@ -1,0 +1,3 @@
+/home/matth/vscode/LP25/LP25/build/CMakeFiles/Projet_LP25.dir
+/home/matth/vscode/LP25/LP25/build/CMakeFiles/edit_cache.dir
+/home/matth/vscode/LP25/LP25/build/CMakeFiles/rebuild_cache.dir

@@ -1,0 +1,50 @@
+[
+{
+  "directory": "/home/matth/vscode/LP25/LP25/build",
+  "command": "/usr/bin/gcc -g -o CMakeFiles/Projet_LP25.dir/main.c.o -c /home/matth/vscode/LP25/LP25/main.c",
+  "file": "/home/matth/vscode/LP25/LP25/main.c",
+  "output": "CMakeFiles/Projet_LP25.dir/main.c.o"
+},
+{
+  "directory": "/home/matth/vscode/LP25/LP25/build",
+  "command": "/usr/bin/gcc -g -o CMakeFiles/Projet_LP25.dir/src/file-properties.c.o -c /home/matth/vscode/LP25/LP25/src/file-properties.c",
+  "file": "/home/matth/vscode/LP25/LP25/src/file-properties.c",
+  "output": "CMakeFiles/Projet_LP25.dir/src/file-properties.c.o"
+},
+{
+  "directory": "/home/matth/vscode/LP25/LP25/build",
+  "command": "/usr/bin/gcc -g -o CMakeFiles/Projet_LP25.dir/src/configuration.c.o -c /home/matth/vscode/LP25/LP25/src/configuration.c",
+  "file": "/home/matth/vscode/LP25/LP25/src/configuration.c",
+  "output": "CMakeFiles/Projet_LP25.dir/src/configuration.c.o"
+},
+{
+  "directory": "/home/matth/vscode/LP25/LP25/build",
+  "command": "/usr/bin/gcc -g -o CMakeFiles/Projet_LP25.dir/src/files-list.c.o -c /home/matth/vscode/LP25/LP25/src/files-list.c",
+  "file": "/home/matth/vscode/LP25/LP25/src/files-list.c",
+  "output": "CMakeFiles/Projet_LP25.dir/src/files-list.c.o"
+},
+{
+  "directory": "/home/matth/vscode/LP25/LP25/build",
+  "command": "/usr/bin/gcc -g -o CMakeFiles/Projet_LP25.dir/src/messages.c.o -c /home/matth/vscode/LP25/LP25/src/messages.c",
+  "file": "/home/matth/vscode/LP25/LP25/src/messages.c",
+  "output": "CMakeFiles/Projet_LP25.dir/src/messages.c.o"
+},
+{
+  "directory": "/home/matth/vscode/LP25/LP25/build",
+  "command": "/usr/bin/gcc -g -o CMakeFiles/Projet_LP25.dir/src/utility.c.o -c /home/matth/vscode/LP25/LP25/src/utility.c",
+  "file": "/home/matth/vscode/LP25/LP25/src/utility.c",
+  "output": "CMakeFiles/Projet_LP25.dir/src/utility.c.o"
+},
+{
+  "directory": "/home/matth/vscode/LP25/LP25/build",
+  "command": "/usr/bin/gcc -g -o CMakeFiles/Projet_LP25.dir/src/sync.c.o -c /home/matth/vscode/LP25/LP25/src/sync.c",
+  "file": "/home/matth/vscode/LP25/LP25/src/sync.c",
+  "output": "CMakeFiles/Projet_LP25.dir/src/sync.c.o"
+},
+{
+  "directory": "/home/matth/vscode/LP25/LP25/build",
+  "command": "/usr/bin/gcc -g -o CMakeFiles/Projet_LP25.dir/src/processes.c.o -c /home/matth/vscode/LP25/LP25/src/processes.c",
+  "file": "/home/matth/vscode/LP25/LP25/src/processes.c",
+  "output": "CMakeFiles/Projet_LP25.dir/src/processes.c.o"
+}
+]
